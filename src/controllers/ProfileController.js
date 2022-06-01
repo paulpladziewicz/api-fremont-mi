@@ -85,9 +85,9 @@ export default {
       linkedin_url
     } = ctx.request.body;
 
-      if (ctx.state.user_id !== +id) {
-          ctx.throw(401, 'Not Authorized');
-      }
+    if (ctx.state.user_id !== +id) {
+      ctx.throw(401, 'Not Authorized');
+    }
 
     const [[profile]] = await mysql.query(
       `SELECT *
@@ -119,9 +119,9 @@ export default {
     const { id } = ctx.params;
     const { published } = ctx.request.body;
 
-      if (ctx.state.user_id !== +id) {
-          ctx.throw(401, 'Not Authorized');
-      }
+    if (ctx.state.user_id !== +id) {
+      ctx.throw(401, 'Not Authorized');
+    }
 
     const [[profile]] = await mysql.query(
       `SELECT *

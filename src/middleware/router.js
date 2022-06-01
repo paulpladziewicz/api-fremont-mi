@@ -19,6 +19,10 @@ router
   .get('/people/:id', ProfileController.getPublicProfile)
   .get('/profile/:id', authenticate, ProfileController.getProfile)
   .put('/profile/:id', authenticate, ProfileController.updateProfile)
-  .patch('/profile/publish/:id', authenticate, ProfileController.publishProfile)
+  .patch(
+    '/profile/publish/:id',
+    authenticate,
+    ProfileController.publishProfile
+  );
 
 export default router;
