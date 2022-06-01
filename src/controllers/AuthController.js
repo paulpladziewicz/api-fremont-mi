@@ -16,13 +16,13 @@ export default {
     );
 
     if (!user) {
-      return (ctx.throw = (401, 'Invalid email or password'));
+      return ctx.throw(401, 'Invalid email or password');
     }
 
     const verifiedPassword = await bcrypt.compare(password, user.password);
 
     if (!verifiedPassword) {
-      return (ctx.throw = (401, 'Invalid email or password'));
+      return ctx.throw(401, 'Invalid email or password');
     }
 
     delete user.password;
