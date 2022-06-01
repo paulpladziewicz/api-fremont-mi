@@ -5,7 +5,7 @@ import AuthController from '../controllers/AuthController.js';
 const router = new Router();
 
 router.get('/', async (ctx) => {
-  ctx.body = { message: 'api is healthy' };
+  ctx.body = { message: 'Api is healthy' };
 });
 
 router

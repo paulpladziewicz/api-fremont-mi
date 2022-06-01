@@ -29,7 +29,6 @@ export default {
 
     const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '1h' });
 
-    ctx.status = 200;
     ctx.body = {
       token,
       user
