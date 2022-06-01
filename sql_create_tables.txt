@@ -1,0 +1,11 @@
+DROP TABLE users;
+
+CREATE TABLE users (
+  id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30),
+  email VARCHAR(255) UNIQUE,
+  password VARCHAR(255),
+  created_at TIMESTAMP default now(),
+  updated_at TIMESTAMP default now() on update now()
+);
