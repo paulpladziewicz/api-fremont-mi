@@ -12,7 +12,7 @@ export default {
     const { email, password } = ctx.request.body;
 
     const [[user]] = await mysql.query(
-      `SELECT id, first_name, last_name, password FROM users WHERE email = '${email}'`
+      `SELECT user_id, first_name, last_name, password FROM users WHERE email = '${email}'`
     );
 
     if (!user) {
@@ -27,7 +27,7 @@ export default {
 
     delete user.password;
 
-    const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '1h' });
+    const token = jwt.sign({ user_id }, 'secret', { expiresIn: '1h' });
 
     ctx.body = {
       token,
@@ -41,10 +41,10 @@ export default {
     password = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
     const [[duplicateUser]] = await mysql.query(
-      `SELECT id FROM users WHERE email = '${email}'`
+      `SELECT user_id FROM users WHERE email = '${email}'`
     );
 
-    if (duplicateUser?.id) {
+    if (duplicateUser?.user_id) {
       return ctx.throw(400, 'User already exists');
     }
 
@@ -53,10 +53,16 @@ export default {
     );
 
     const [[user]] = await mysql.query(
-      `SELECT id, first_name, last_name FROM users WHERE email = '${email}'`
+      `SELECT user_id, first_name, last_name FROM users WHERE email = '${email}'`
     );
 
-    const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '1h' });
+    await mysql.query(
+      `INSERT INTO people (user_id, first_name, last_name) VALUES ('${user.user_id}', '${user.first_name}', '${user.last_name}')`
+    );
+
+    const token = jwt.sign({ user_id: user.user_id }, 'secret', {
+      expiresIn: '1h'
+    });
 
     ctx.status = 201;
     ctx.body = {
