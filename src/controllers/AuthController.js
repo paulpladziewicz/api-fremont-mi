@@ -27,7 +27,9 @@ export default {
 
     delete user.password;
 
-    const token = jwt.sign({ user_id }, 'secret', { expiresIn: '1h' });
+    const token = jwt.sign({ user_id: user.user_id }, 'secret', {
+      expiresIn: '1h'
+    });
 
     ctx.body = {
       token,
