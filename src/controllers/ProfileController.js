@@ -24,7 +24,7 @@ export default {
   async getPublicProfile(ctx) {
     const { id } = ctx.params;
 
-    const [[profile]] = await mysql.query(
+    const [[profile]] = await mysql.execute(
       `SELECT first_name,
                 last_name,
                 about,
@@ -36,7 +36,8 @@ export default {
          FROM people
          WHERE approved = '1'
            AND published = '1'
-           AND user_id = '${id}'`
+           AND user_id = ?`,
+      [id]
     );
 
     ctx.body = {
@@ -51,10 +52,11 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    const [[profile]] = await mysql.query(
+    const [[profile]] = await mysql.execute(
       `SELECT *
          FROM people
-         WHERE user_id = '${id}'`
+         WHERE user_id = ?`,
+      [id]
     );
 
     if (!profile) {
@@ -89,10 +91,11 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    const [[profile]] = await mysql.query(
+    const [[profile]] = await mysql.execute(
       `SELECT *
          FROM people
-         WHERE user_id = '${id}'`
+         WHERE user_id = ?`,
+      [id]
     );
 
     if (!profile) {
@@ -101,15 +104,26 @@ export default {
 
     await mysql.query(
       `UPDATE people
-         SET first_name = '${first_name}',
-             last_name = '${last_name}',
+         SET first_name = ?,
+             last_name = ?,
              about = '${about}',
-             s3_image_pathname = '${s3_image_pathname}',
-             facebook_url = '${facebook_url}',
-             instagram_url = '${instagram_url}',
-             twitter_url = '${twitter_url}',
-             linkedin_url = '${linkedin_url}'
-         WHERE user_id = '${id}'`
+             s3_image_pathname = ?,
+             facebook_url = ?,
+             instagram_url = ?,
+             twitter_url = ?,
+             linkedin_url = ?
+         WHERE user_id = ?`,
+      [
+        first_name,
+        last_name,
+        about,
+        s3_image_pathname,
+        facebook_url,
+        instagram_url,
+        twitter_url,
+        linkedin_url,
+        id
+      ]
     );
 
     ctx.status = 200;
@@ -123,19 +137,21 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    const [[profile]] = await mysql.query(
+    const [[profile]] = await mysql.execute(
       `SELECT *
          FROM people
-         WHERE user_id = '${id}'`
+         WHERE user_id = ?`,
+      [id]
     );
 
     if (!profile) {
       ctx.throw(404, 'Profile not found');
     }
 
-    await mysql.query(
-      `UPDATE people SET published = '${published}' WHERE user_id = '${id}'`
-    );
+    await mysql.execute(`UPDATE people SET published = ? WHERE user_id = ?`, [
+      published,
+      id
+    ]);
 
     ctx.status = 200;
   }
