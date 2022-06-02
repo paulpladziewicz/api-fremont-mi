@@ -106,7 +106,7 @@ export default {
       `UPDATE people
          SET first_name = ?,
              last_name = ?,
-             about = '${about}',
+             about = ?,
              s3_image_pathname = ?,
              facebook_url = ?,
              instagram_url = ?,
