@@ -11,8 +11,9 @@ export default {
   async login(ctx) {
     const { email, password } = ctx.request.body;
 
-    const [[user]] = await mysql.query(
-      `SELECT user_id, first_name, last_name, password FROM users WHERE email = '${email}'`
+    const [[user]] = await mysql.execute(
+      `SELECT user_id, first_name, last_name, password FROM users WHERE email = ?`,
+      [email]
     );
 
     if (!user) {
@@ -50,16 +51,19 @@ export default {
       return ctx.throw(400, 'User already exists');
     }
 
-    await mysql.query(
-      `INSERT INTO users (first_name, last_name, email, password) VALUES ('${first_name}', '${last_name}', '${email}', '${password}')`
+    await mysql.execute(
+      `INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)`,
+      [first_name, last_name, email, password]
     );
 
-    const [[user]] = await mysql.query(
-      `SELECT user_id, first_name, last_name FROM users WHERE email = '${email}'`
+    const [[user]] = await mysql.execute(
+      `SELECT user_id, first_name, last_name FROM users WHERE email = ?`,
+      [email]
     );
 
-    await mysql.query(
-      `INSERT INTO people (user_id, first_name, last_name) VALUES ('${user.user_id}', '${user.first_name}', '${user.last_name}')`
+    await mysql.execute(
+      `INSERT INTO people (user_id, first_name, last_name) VALUES (?, ?, ?)`,
+      [user.user_id, first_name, last_name]
     );
 
     const token = jwt.sign({ user_id: user.user_id }, 'secret', {

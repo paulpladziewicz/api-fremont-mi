@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import authenticate from './authenticate.js';
 import AuthController from '../controllers/AuthController.js';
 import ProfileController from '../controllers/ProfileController.js';
+import EventController from '../controllers/EventController.js';
 
 const router = new Router();
 
@@ -24,5 +25,14 @@ router
     authenticate,
     ProfileController.publishProfile
   );
+
+router
+  .get('/events', EventController.getAllEvents)
+  .get('/events/:id', EventController.getPublicEvent)
+  .get('/event/:id', authenticate, EventController.getEvent)
+  .post('/event', authenticate, EventController.createEvent)
+  .put('/event/:id', authenticate, EventController.updateEvent)
+  .patch('/event/publish/:id', authenticate, EventController.publishEvent)
+  .delete('/event/:id', authenticate, EventController.deleteEvent);
 
 export default router;

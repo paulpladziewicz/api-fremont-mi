@@ -1,28 +1,74 @@
+DROP TABLE businesses;
+DROP TABLE events;
+DROP TABLE people;
 DROP TABLE users;
 
 CREATE TABLE users (
-  user_id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30),
-  email VARCHAR(255) UNIQUE,
-  password VARCHAR(255),
-  created_at TIMESTAMP default now(),
-  updated_at TIMESTAMP default now() on update now()
+   user_id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+   first_name VARCHAR(30) NOT NULL,
+   last_name VARCHAR(30),
+   email VARCHAR(255) UNIQUE,
+   password VARCHAR(255),
+   created_at TIMESTAMP default now(),
+   updated_at TIMESTAMP default now() on update now()
 );
 
 CREATE TABLE people (
-  user_id SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
-  approved TINYINT(1) DEFAULT 1,
-  published TINYINT(1) DEFAULT 0,
-  first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30) NOT NULL,
-  about varchar(1000),
-  s3_image_pathname varchar(255),
-  facebook_url varchar(255),
-  instagram_url varchar(255),
-  twitter_url varchar(255),
-  linkedin_url varchar(255),
-  created_at TIMESTAMP default now(),
-  updated_at TIMESTAMP default now() on update now(),
-  CONSTRAINT fk_category FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+    user_id SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
+    approved TINYINT DEFAULT 1,
+    published TINYINT DEFAULT 0,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    about varchar(1000),
+    s3_image_pathname varchar(255),
+    facebook_url varchar(255),
+    instagram_url varchar(255),
+    twitter_url varchar(255),
+    linkedin_url varchar(255),
+    created_at TIMESTAMP default now(),
+    updated_at TIMESTAMP default now() on update now(),
+    CONSTRAINT fk_user_profile FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE events (
+    event_id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id SMALLINT UNSIGNED NOT NULL,
+    approved TINYINT DEFAULT 1,
+    published TINYINT DEFAULT 0,
+    name VARCHAR(255) NOT NULL,
+    provided_by VARCHAR(255) NOT NULL,
+    about varchar(1000) NOT NULL,
+    address varchar(255) NOT NULL,
+    entry_fee varchar(255) NOT NULL,
+    start_time datetime NOT NULL,
+    end_time datetime NOT NULL,
+    s3_image_pathname varchar(255),
+    web_url varchar(255),
+    facebook_url varchar(255),
+    instagram_url varchar(255),
+    twitter_url varchar(255),
+    linkedin_url varchar(255),
+    created_at TIMESTAMP default now(),
+    updated_at TIMESTAMP default now() on update now(),
+    CONSTRAINT fk_user_event FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE businesses (
+    business_id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id SMALLINT UNSIGNED NOT NULL,
+    approved TINYINT DEFAULT 1,
+    published TINYINT DEFAULT 0,
+    name VARCHAR(255) NOT NULL,
+    about varchar(1000) NOT NULL,
+    address varchar(255) NOT NULL,
+    phone char(10) NOT NULL,
+    s3_image_pathname varchar(255),
+    web_url varchar(255),
+    facebook_url varchar(255),
+    instagram_url varchar(255),
+    twitter_url varchar(255),
+    linkedin_url varchar(255),
+    created_at TIMESTAMP default now(),
+    updated_at TIMESTAMP default now() on update now(),
+    CONSTRAINT fk_user_business FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
