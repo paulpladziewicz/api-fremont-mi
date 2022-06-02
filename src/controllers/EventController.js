@@ -48,7 +48,7 @@ export default {
          FROM events
          WHERE approved = '1'
            AND published = '1'
-           AND user_id = ?`,
+           AND event_id = ?`,
       [id]
     );
 
@@ -62,8 +62,8 @@ export default {
 
     const [[event]] = await mysql.execute(
       `SELECT *
-         FROM people
-         WHERE user_id = ?`,
+         FROM events
+         WHERE event_id = ?`,
       [id]
     );
 
