@@ -53,7 +53,7 @@ export default {
     );
 
     ctx.body = {
-      event
+      ...event
     };
   },
 
@@ -173,7 +173,7 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    await mysql.query(
+    await mysql.execute(
       `UPDATE events
           SET name = ?,
               provided_by = ?,
@@ -230,7 +230,7 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    await mysql.query(`UPDATE events SET published = ? WHERE event_id = ?`, [
+    await mysql.execute(`UPDATE events SET published = ? WHERE event_id = ?`, [
       published,
       id
     ]);
@@ -256,7 +256,7 @@ export default {
       ctx.throw(401, 'Not Authorized');
     }
 
-    await mysql.query(`DELETE FROM events WHERE event_id = ?`, [id]);
+    await mysql.execute(`DELETE FROM events WHERE event_id = ?`, [id]);
 
     ctx.status = 200;
   }

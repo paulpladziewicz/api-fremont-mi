@@ -41,7 +41,7 @@ export default {
     );
 
     ctx.body = {
-      profile
+      ...profile
     };
   },
 
@@ -102,7 +102,7 @@ export default {
       ctx.throw(404, 'Profile not found');
     }
 
-    await mysql.query(
+    await mysql.execute(
       `UPDATE people
          SET first_name = ?,
              last_name = ?,

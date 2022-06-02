@@ -3,6 +3,7 @@ import authenticate from './authenticate.js';
 import AuthController from '../controllers/AuthController.js';
 import ProfileController from '../controllers/ProfileController.js';
 import EventController from '../controllers/EventController.js';
+import BusinessController from '../controllers/BusinessController.js';
 
 const router = new Router();
 
@@ -34,5 +35,14 @@ router
   .put('/event/:id', authenticate, EventController.updateEvent)
   .patch('/event/publish/:id', authenticate, EventController.publishEvent)
   .delete('/event/:id', authenticate, EventController.deleteEvent);
+
+router
+  .get('/businesses', BusinessController.getAllBusinesses)
+  .get('/businesses/:id', BusinessController.getPublicBusiness)
+  .get('/business/:id', authenticate, BusinessController.getBusiness)
+  .post('/business', authenticate, BusinessController.createBusiness)
+  .put('/business/:id', authenticate, BusinessController.updateBusiness)
+  .patch('/business/publish/:id', authenticate, BusinessController.publishBusiness)
+  .delete('/business/:id', authenticate, BusinessController.deleteBusiness);
 
 export default router;
