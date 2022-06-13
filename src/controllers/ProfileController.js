@@ -3,7 +3,8 @@ import mysql from '../db.js';
 export default {
   async getAllProfiles(ctx) {
     const [profiles] = await mysql.query(
-      `SELECT first_name,
+      `SELECT user_id, 
+                first_name,
                 last_name,
                 about,
                 s3_image_pathname,
