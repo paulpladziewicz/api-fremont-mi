@@ -5,7 +5,9 @@ const BCRYPT_SALT_ROUNDS = 12;
 
 export default {
   async user(ctx) {
-    ctx.status = 200;
+    ctx.body = {
+      user: ctx.state.user
+    };
   },
 
   async login(ctx) {
@@ -28,7 +30,11 @@ export default {
 
     delete user.password;
 
-    const token = jwt.sign({ user_id: user.user_id }, 'secret', {
+    const token = jwt.sign({
+      user_id: user.user_id,
+      first_name: user.first_name,
+      last_name: user.last_name
+    }, 'secret', {
       expiresIn: '1h'
     });
 
@@ -66,7 +72,11 @@ export default {
       [user.user_id, first_name, last_name]
     );
 
-    const token = jwt.sign({ user_id: user.user_id }, 'secret', {
+    const token = jwt.sign({
+      user_id: user.user_id,
+      first_name: user.first_name,
+      last_name: user.last_name
+    }, 'secret', {
       expiresIn: '1h'
     });
 

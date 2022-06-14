@@ -71,7 +71,7 @@ export default {
       ctx.throw(404, 'Event not found');
     }
 
-    if (ctx.state.user_id !== event.user_id) {
+    if (ctx.state.user.user_id !== event.user_id) {
       ctx.throw(401, 'Not Authorized');
     }
 
@@ -122,7 +122,7 @@ export default {
           )
          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [
-        ctx.state.user_id,
+        ctx.state.user.user_id,
         name,
         provided_by,
         about,
@@ -169,7 +169,7 @@ export default {
       ctx.throw(404, 'Event not found');
     }
 
-    if (ctx.state.user_id !== event.user_id) {
+    if (ctx.state.user.user_id !== event.user_id) {
       ctx.throw(401, 'Not Authorized');
     }
 
@@ -226,7 +226,7 @@ export default {
       ctx.throw(404, 'Event not found');
     }
 
-    if (ctx.state.user_id !== event.user_id) {
+    if (ctx.state.user.user_id !== event.user_id) {
       ctx.throw(401, 'Not Authorized');
     }
 
@@ -252,7 +252,7 @@ export default {
       ctx.throw(404, 'Event not found');
     }
 
-    if (ctx.state.user_id !== event.user_id) {
+    if (ctx.state.user.user_id !== event.user_id) {
       ctx.throw(401, 'Not Authorized');
     }
 

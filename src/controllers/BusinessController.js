@@ -65,7 +65,7 @@ export default {
             ctx.throw(404, 'Business not found');
         }
 
-        if (ctx.state.user_id !== business.user_id) {
+        if (ctx.state.user.user_id !== business.user_id) {
             ctx.throw(401, 'Not Authorized');
         }
 
@@ -110,7 +110,7 @@ export default {
           )
          VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
             [
-                ctx.state.user_id,
+                ctx.state.user.user_id,
                 name,
                 about,
                 address,
@@ -151,7 +151,7 @@ export default {
             ctx.throw(404, 'Business not found');
         }
 
-        if (ctx.state.user_id !== business.user_id) {
+        if (ctx.state.user.user_id !== business.user_id) {
             ctx.throw(401, 'Not Authorized');
         }
 
@@ -202,7 +202,7 @@ export default {
             ctx.throw(404, 'Business not found');
         }
 
-        if (ctx.state.user_id !== business.user_id) {
+        if (ctx.state.user.user_id !== business.user_id) {
             ctx.throw(401, 'Not Authorized');
         }
 
@@ -228,7 +228,7 @@ export default {
             ctx.throw(404, 'Business not found');
         }
 
-        if (ctx.state.user_id !== business.user_id) {
+        if (ctx.state.user.user_id !== business.user_id) {
             ctx.throw(401, 'Not Authorized');
         }
 

@@ -9,7 +9,7 @@ const authenticate = async (ctx, next) => {
 
   try {
     const decodedToken = await jwt.verify(token, 'secret');
-    ctx.state.user_id = decodedToken.user_id;
+    ctx.state.user = decodedToken;
   } catch (err) {
     return ctx.throw(401, 'Invalid token');
   }

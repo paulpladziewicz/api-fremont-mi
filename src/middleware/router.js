@@ -1,4 +1,5 @@
 import Router from 'koa-router';
+import koaBody from 'koa-body';
 import authenticate from './authenticate.js';
 import AuthController from '../controllers/AuthController.js';
 import ProfileController from '../controllers/ProfileController.js';
@@ -44,5 +45,8 @@ router
   .put('/business/:id', authenticate, BusinessController.updateBusiness)
   .patch('/business/publish/:id', authenticate, BusinessController.publishBusiness)
   .delete('/business/:id', authenticate, BusinessController.deleteBusiness);
+
+router
+  .post('profile/image', authenticate, koaBody({ multipart: true }), ProfileController.updateImage);
 
 export default router;
